@@ -39,15 +39,19 @@ if and else if computers selection and return results */
 
 function playRound(playerSelection,computerSelection) {
     choice =  prompt("Rock, Paper or Scissors?");
+    if (choice === null || choice === "") {
+        return "You have cancelled the prompt.";
+    } else {
     playerSelection = choice.toUpperCase();
 
-    computerSelection = computerPlay();
-
+    
     console.log("You chose " + playerSelection);
-    console.log("Computer chose " + computerSelection);
+    
+computerSelection = computerPlay();
 
 
     function resultMsg(playerResult) {
+        console.log("Computer chose " + computerSelection);
             if (playerResult === "lose")
                 {return `You lose! ${computerSelection} beats ${playerSelection}!`;}
             else if (playerResult === "win")
@@ -82,9 +86,15 @@ function playRound(playerSelection,computerSelection) {
                 return resultMsg("win");
             else return resultMsg("draw");
 
+        case null:
+        case '':
+            return "You have cancelled the prompt.";
+
+        
         default:
-            return "You typed your choice wrong... Try again.";
-            
+            console.log("You typed your choice wrong... Try again.");
+            return playRound();
+    }  
     }
 }
 
