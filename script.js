@@ -9,7 +9,7 @@ if <0.333 return Rock, 0.333=< < 0.666 return Paper, else return Scissors */
 
 function computerPlay() {
     let computerChoice = Math.random().toFixed(3);
-    console.log("Random number generated: " + computerChoice);
+    //console.log("Random number generated: " + computerChoice);
     if (computerChoice < 0.333)
             return "ROCK";
     else if (computerChoice >= 0.333 && computerChoice < 0.666)
@@ -52,13 +52,19 @@ computerSelection = computerPlay();
 
     function resultMsg(playerResult) {
         console.log("Computer chose " + computerSelection);
-            if (playerResult === "lose")
-                {return `You lose! ${computerSelection} beats ${playerSelection}!`;}
-            else if (playerResult === "win")
-                {return `You win! ${playerSelection} beats ${computerSelection}!`;}
-            else if (playerResult === "draw")
-                {return "Its a draw!";}
-            else return "Something went wrong...";   
+            if (playerResult === "lose") {
+                console.log(`You lose! ${computerSelection} beats ${playerSelection}!`)
+                return "lose";
+            } else if (playerResult === "win") {
+                console.log(`You win! ${playerSelection} beats ${computerSelection}!`)
+                return "win";
+            } else if (playerResult === "draw") {
+                console.log("Its a draw!")
+                return "draw";
+            } else {
+                console.log("Something went wrong...") 
+                return "error"; }
+
     } 
 
 
@@ -99,5 +105,46 @@ computerSelection = computerPlay();
 }
 
 
-console.log(playRound());
 
+
+/*TASK: Design a function that plays 5 rounds, keep tracks of rounds won, declares a winner at the end of 5 rounds.
+
+Declare score 0-0
+FOR count to 5,
+    Call function playRound
+    playRound should return a win/loss value
+    use value to add 1 score
+    (use You ${} - ${} COmputer)
+
+Show winner
+
+*/
+
+function game() {
+
+let playerScore = 0;
+let computerScore = 0;
+
+
+for (let i = 0; i<5; i++) {
+    let roundResult = playRound();
+    if (roundResult === "lose") {
+        ++computerScore;
+    } else if (roundResult === "win") {
+        ++playerScore;
+    } else {
+        playerScore = playerScore + 0;
+    } 
+    console.log(`<--- SCORE: YOU ${playerScore} - ${computerScore} COMPUTER --->`);
+    
+    
+}
+
+if (playerScore > computerScore) {
+    console.log("That's 5 rounds, you win!")
+} else 
+    console.log("That's 5 rounds, you lose!")
+
+}
+
+game();
