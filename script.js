@@ -40,7 +40,8 @@ if and else if computers selection and return results */
 function playRound(playerSelection,computerSelection) {
     choice =  prompt("Rock, Paper or Scissors?");
     if (choice === null || choice === "") {
-        return "You have cancelled the prompt.";
+        console.log("You have cancelled the prompt.")
+        return "cancelled";
     } else {
     playerSelection = choice.toUpperCase();
 
@@ -92,11 +93,6 @@ computerSelection = computerPlay();
                 return resultMsg("win");
             else return resultMsg("draw");
 
-        case null:
-        case '':
-            return "You have cancelled the prompt.";
-
-        
         default:
             console.log("You typed your choice wrong... Try again.");
             return playRound();
@@ -127,11 +123,15 @@ let computerScore = 0;
 
 
 for (let i = 0; i<5; i++) {
+    
     let roundResult = playRound();
+    
     if (roundResult === "lose") {
         ++computerScore;
     } else if (roundResult === "win") {
         ++playerScore;
+    } else if (roundResult === "cancelled") {
+        return 0;
     } else {
         playerScore = playerScore + 0;
     } 
@@ -141,9 +141,11 @@ for (let i = 0; i<5; i++) {
 }
 
 if (playerScore > computerScore) {
-    console.log("That's 5 rounds, you win!")
+    console.log("That's 5 rounds, you win!");
+} else if (playerScore === computerScore) {
+    console.log("That's 5 rounds, it's a draw!");
 } else 
-    console.log("That's 5 rounds, you lose!")
+    console.log("That's 5 rounds, you lose!");
 
 }
 
