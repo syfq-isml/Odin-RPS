@@ -1,12 +1,3 @@
-/* PLANNING
-
-Design a function that will randomly return R, P, S.
-
-1. Use Math.Random() to generate random decimal
-2. Divide numbers by 3 sections for equal probability, i.e.
-if <0.333 return Rock, 0.333=< < 0.666 return Paper, else return Scissors */
-
-
 function computerPlay() {
     let computerChoice = Math.random().toFixed(3);
     //console.log("Random number generated: " + computerChoice);
@@ -18,135 +9,164 @@ function computerPlay() {
 }
 
 
-/*TASK: Design function to play 1 round, take 2 parameters and declares a winnner. Make players input case insensitve.
 
-function to play a single round
-player inputs R, P or S
-computer chooses R, P or S
+function playRound(e) {
 
-Player lose cases:
-IF player choose R & computer choose P
-IF player choose P & computer choose S
-IF player choose 
+let playerSelection;
+if (e.target.className === 'rock') { 
+    playerSelection = "ROCK";
+} else if (e.target.className === 'paper') {
+    playerSelection = "PAPER";
+} else if (e.target.className === 'scissors') {
+    playerSelection = "SCISSORS";
+} else 
+    playerSelection = "error";
 
-switch case: case === player's input
-if and else if computers selection and return results */
+console.log("You chose " + playerSelection);
 
+let computerSelection = computerPlay();
 
-
-
+function resultMsg(playerResult) {
+    console.log("Computer chose " + computerSelection);
     
+    
+    
+    resultSection = document.createElement('div');
+    resultSection.style.cssText = 'margin-top:10px';
+    //resultSection.style.marginTop = "10px";
+    result.append(resultSection);
 
-function playRound(playerSelection,computerSelection) {
-    choice =  prompt("Rock, Paper or Scissors?");
-    if (choice === null || choice === "") {
-        console.log("You have cancelled the prompt.")
-        return "cancelled";
+    if (playerResult === "lose") {
+        resultSection.textContent = `You lose! ${computerSelection} beats ${playerSelection}!`;
+        return scoreCounter("lose");
+    } else if (playerResult === "win") {
+        resultSection.textContent = `You win! ${playerSelection} beats ${computerSelection}!`;
+        return scoreCounter("win");
+    } else if (playerResult === "draw") {
+        resultSection.textContent = `You both chose ${playerSelection}! It's a draw!`;
+        return scoreCounter("draw");
     } else {
-    playerSelection = choice.toUpperCase();
-
-    
-    console.log("You chose " + playerSelection);
-    
-computerSelection = computerPlay();
-
-
-    function resultMsg(playerResult) {
-        console.log("Computer chose " + computerSelection);
-            if (playerResult === "lose") {
-                console.log(`You lose! ${computerSelection} beats ${playerSelection}!`)
-                return "lose";
-            } else if (playerResult === "win") {
-                console.log(`You win! ${playerSelection} beats ${computerSelection}!`)
-                return "win";
-            } else if (playerResult === "draw") {
-                console.log("Its a draw!")
-                return "draw";
-            } else {
-                console.log("Something went wrong...") 
-                return "error"; }
-
-    } 
-
-
-    switch(playerSelection) {
-
-        case "ROCK":
-            if (computerSelection === "PAPER" )
-                return resultMsg("lose");
-            else if (computerSelection === "SCISSORS")
-                return resultMsg("win");
-            else return resultMsg("draw");
-        
-        case "PAPER":
-            if (computerSelection === "SCISSORS")
-                return resultMsg("lose");
-            else if (computerSelection === "ROCK")
-                return resultMsg("win");
-            else return resultMsg("draw");
-        
-        
-        case "SCISSORS":
-            if (computerSelection === "ROCK")
-                return resultMsg("lose");
-            if (computerSelection === "PAPER")
-                return resultMsg("win");
-            else return resultMsg("draw");
-
-        default:
-            console.log("You typed your choice wrong... Try again.");
-            return playRound();
-    }  
+        console.log("Something went wrong...") 
+        return "error"; 
     }
+
+} 
+
+
+switch(playerSelection) {
+
+    case "ROCK":
+        if (computerSelection === "PAPER")
+            return resultMsg("lose");
+        else if (computerSelection === "SCISSORS")
+            return resultMsg("win");
+        else 
+            return resultMsg("draw");
+    
+    case "PAPER":
+        if (computerSelection === "SCISSORS")
+            return resultMsg("lose");
+        else if (computerSelection === "ROCK")
+            return resultMsg("win");
+        else 
+            return resultMsg("draw");
+    
+    
+    case "SCISSORS":
+        if (computerSelection === "ROCK")
+            return resultMsg("lose");
+        if (computerSelection === "PAPER")
+            return resultMsg("win");
+        else 
+            return resultMsg("draw");
+
+    default:
+        console.log("Something went wrong... Try again.");
+        return;
+}  
+    
 }
 
+// setting button events -----------------------//
+const btnR = document.querySelector('.rock');
+const btnP = document.querySelector('.paper');
+const btnS = document.querySelector('.scissors');
+
+btnR.addEventListener('click', playRound); 
+btnP.addEventListener('click', playRound); 
+btnS.addEventListener('click', playRound); 
+//----------------------------------------------//
 
 
+// adding div to display results and combat log//-------//
+const body = document.querySelector('body');
 
-/*TASK: Design a function that plays 5 rounds, keep tracks of rounds won, declares a winner at the end of 5 rounds.
+const result = document.createElement('div');
 
-Declare score 0-0
-FOR count to 5,
-    Call function playRound
-    playRound should return a win/loss value
-    use value to add 1 score
-    (use You ${} - ${} COmputer)
+const pResult = document.createElement('p');
+const cResult = document.createElement('p');
+pResult.textContent = `Your Score: 0`;
+cResult.textContent = `Computer Score: 0`;
 
-Show winner
 
-*/
+result.appendChild(pResult);
+result.appendChild(cResult);
+body.appendChild(result);
 
-function game() {
+resultSectionLog = document.createElement('div');
+resultSectionLog.textContent = "Combat Log:";
+resultSectionLog.style.cssText = 'margin-top:10px; font-weight:700';
+result.append(resultSectionLog);
+//------------------------------------------------------//
 
+// function to keep track of score //--------------//
 let playerScore = 0;
 let computerScore = 0;
 
-
-for (let i = 0; i<5; i++) {
+function scoreCounter(winLoss) {
     
-    let roundResult = playRound();
-    
-    if (roundResult === "lose") {
-        ++computerScore;
-    } else if (roundResult === "win") {
+    if (winLoss === 'win') {
         ++playerScore;
-    } else if (roundResult === "cancelled") {
-        return 0;
-    } else {
-        playerScore = playerScore + 0;
-    } 
-    console.log(`<--- SCORE: YOU ${playerScore} - ${computerScore} COMPUTER --->`);
-    
-    
+        pResult.textContent = `Your Score: ${playerScore}`;
+        game5();
+        return;
+    } else if (winLoss === 'lose') {
+        ++computerScore;
+        cResult.textContent = `Computer Score: ${computerScore}`;
+        game5();
+        return;
+    } else if (winLoss === 'draw') {
+        return;
+    }
 }
+//---------------------------------------------//
 
-if (playerScore > computerScore) {
-    console.log("That's 5 rounds, you win!");
-} else if (playerScore === computerScore) {
-    console.log("That's 5 rounds, it's a draw!");
-} else 
-    console.log("That's 5 rounds, you lose!");
+// function to play only 5 games and victory screen //
+function game5() {
+    const victorySection = document.createElement('h1');
+    body.appendChild(victorySection);
+    
+    if (playerScore === 5) {
+        body.removeChild(result);
+        body.removeChild(btnP);
+        body.removeChild(btnR);
+        body.removeChild(btnS);
+        victorySection.textContent = "You win!"
+    } else if (computerScore === 5) {
+        body.removeChild(result);
+        body.removeChild(btnP);
+        body.removeChild(btnR);
+        body.removeChild(btnS);
+        victorySection.textContent = "You lose!"
+    }
 
 }
+// ----------------------------------------//
 
-game();
+
+
+//function to display message
+
+//update message
+
+//update after 5 rounds
